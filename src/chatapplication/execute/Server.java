@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.server;
+package chatapplication.execute;
 
 import chatapplication.entity.Room;
 import chatapplication.entity.User;
+import chatapplication.server.Handler;
 import chatapplication.util.Config;
-import chatapplication.util.Handler;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashSet;

@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.Response;
+package chatapplication.response;
 
 import chatapplication.entity.Room;
+import java.util.HashSet;
 
 /**
  *
  * @author VuongKM
  */
-public class CreateRoomR extends Response {
+public class ListRoomR extends Response {
 
-    public Room room;
+    public HashSet<Room> rooms;
 }

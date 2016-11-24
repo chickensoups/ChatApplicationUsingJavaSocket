@@ -29,4 +29,11 @@ public class User implements Serializable {
         this.id = id;
         this.name = name;
     }
+
+    public User(User user) {
+        this.id = user.id;
+        this.name = user.name;
+        this.out = user.out;
+        this.in = user.in;
+    }
 }

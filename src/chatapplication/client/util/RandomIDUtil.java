@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.client;
+package chatapplication.client.util;
 
 import java.security.SecureRandom;
 import java.math.BigInteger;
@@ -13,7 +13,7 @@ import java.math.BigInteger;
  * @author VuongKM
  */
 
-public class RandomID {
+public class RandomIDUtil {
 
     private static SecureRandom random = new SecureRandom();
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.client;
+package chatapplication.client.util;
 
 import java.awt.Component;
 import javax.swing.BorderFactory;
@@ -30,7 +30,7 @@ public class DecorationUtil {
         panel.setBorder(border);
     }
 
-    public static void addComponentAndRepain(JComponent parent, JComponent child) {
+    public static void addComponentAndRepaint(JComponent parent, JComponent child) {
         parent.add(child);
         parent.validate();
         parent.repaint();

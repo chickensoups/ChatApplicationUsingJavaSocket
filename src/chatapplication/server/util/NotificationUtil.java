@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.util;
+package chatapplication.server.util;
 
-import chatapplication.Response.Response;
+import chatapplication.response.Response;
 import chatapplication.entity.Room;
 import chatapplication.entity.User;
-import chatapplication.server.Server;
+import chatapplication.execute.Server;
+import chatapplication.execute.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;

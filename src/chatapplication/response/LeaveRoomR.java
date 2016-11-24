@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.Response;
+package chatapplication.response;
 
 import chatapplication.entity.Room;
 
@@ -11,7 +11,7 @@ import chatapplication.entity.Room;
  *
  * @author VuongKM
  */
-public class JoinRoomR extends Response {
+public class LeaveRoomR extends Response {
 
     public Room room;
 }

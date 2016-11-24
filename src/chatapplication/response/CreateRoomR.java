@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.Response;
+package chatapplication.response;
+
+import chatapplication.entity.Room;
 
 /**
  *
  * @author VuongKM
  */
-public class LoginR extends Response {
+public class CreateRoomR extends Response {
 
-    public String userName;
+    public Room room;
 }

@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.protocol;
+package chatapplication.server;
 
-import chatapplication.Response.CreateRoomR;
-import chatapplication.Response.JoinRoomR;
-import chatapplication.Response.LeaveRoomR;
-import chatapplication.Response.ListRoomR;
-import chatapplication.Response.LoginR;
-import chatapplication.Response.LogoutR;
-import chatapplication.Response.Response;
-import chatapplication.Response.SendMessageR;
+import chatapplication.response.CreateRoomR;
+import chatapplication.response.JoinRoomR;
+import chatapplication.response.LeaveRoomR;
+import chatapplication.response.ListRoomR;
+import chatapplication.response.LoginR;
+import chatapplication.response.LogoutR;
+import chatapplication.response.Response;
+import chatapplication.response.SendMessageR;
 import chatapplication.command.Command;
 import chatapplication.command.CreateRoom;
 import chatapplication.command.JoinRoom;
@@ -21,14 +21,12 @@ import chatapplication.command.ListRoom;
 import chatapplication.command.Login;
 import chatapplication.command.Logout;
 import chatapplication.command.SendMessage;
-import chatapplication.entity.Room;
 import chatapplication.entity.User;
-import chatapplication.server.Server;
 import chatapplication.util.Config;
-import chatapplication.util.MessageUtil;
-import chatapplication.util.NotificationUtil;
-import chatapplication.util.RoomUtil;
-import chatapplication.util.UserUtil;
+import chatapplication.server.util.MessageUtil;
+import chatapplication.server.util.NotificationUtil;
+import chatapplication.server.util.RoomUtil;
+import chatapplication.server.util.UserUtil;
 
 /**
  *
@@ -58,15 +56,15 @@ public class Protocol {
         Login login = (Login) command;
         LoginR loginR = new LoginR();
         loginR.name = login.name + Config.responseSign;
-        loginR.userName = login.userName;
+        loginR.userName = login.creator.name;
 
-        if (login.userName.isEmpty()) {
+        if (login.creator.name.isEmpty()) {
             loginR.status = 400;
             loginR.message = "Username can't be empty!";
             return loginR;
         }
 
-        if (UserUtil.isUserExisted(login.userName)) {
+        if (UserUtil.isUserExisted(login.creator.name)) {
             loginR.status = 400;
             loginR.message = "Existed username";
             return loginR;
@@ -76,7 +74,7 @@ public class Protocol {
         User loggedUser = UserUtil.logUserIn(login);
         // Notice
         NotificationUtil.noticeUser(loggedUser, loginR);
-        
+
         return loginR;
     }
 
@@ -85,7 +83,11 @@ public class Protocol {
         LogoutR logoutR = new LogoutR();
         logoutR.name = logout.name + Config.responseSign;
 
-        UserUtil.logUserOut(logout);
+        // Log user out
+        User loggedOutUser = UserUtil.logUserOut(logout);
+        // Notice
+        NotificationUtil.noticeUser(loggedOutUser, logoutR);
+        
         return logoutR;
     }
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.util;
+package chatapplication.server.util;
 
 import chatapplication.command.JoinRoom;
 import chatapplication.command.LeaveRoom;
@@ -11,7 +11,8 @@ import chatapplication.command.Login;
 import chatapplication.command.Logout;
 import chatapplication.entity.Room;
 import chatapplication.entity.User;
-import chatapplication.server.Server;
+import chatapplication.execute.Server;
+import chatapplication.execute.Server;
 import java.util.ArrayList;
 
 /**
@@ -32,23 +33,27 @@ public class UserUtil {
         Room room = RoomUtil.findRoom(user.currentRoom);
         room.userCount--;
         user.currentRoom = null;
-        // Notice all people remain in rooms
     }
 
     public static User logUserIn(Login login) {
         for (User tmpUser : Server.users) {
-            if (tmpUser.id.equals(login.id)) {
-                tmpUser.name = login.userName;
-                return null;
+            if (tmpUser.id.equals(login.creator.id)) {
+                tmpUser.name = login.creator.name;
+                tmpUser.out = login.creator.out;
+                tmpUser.in = login.creator.in;
+                break;
             }
         }
-        User user = new User(login.id, login.userName);
+        
+        User user = new User(login.creator);
         Server.users.add(user);
         return user;
     }
 
-    public static void logUserOut(Logout logout) {
-        Server.users.remove(findUser(logout.creator));
+    public static User logUserOut(Logout logout) {
+        User user = findUser(logout.creator);
+        Server.users.remove(user);
+        return user;
     }
 
     public static User findUser(User user) {

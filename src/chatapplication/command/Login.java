@@ -5,6 +5,7 @@
  */
 package chatapplication.command;
 
+import chatapplication.entity.User;
 import chatapplication.util.Config;
 
 /**
@@ -13,12 +14,8 @@ import chatapplication.util.Config;
  */
 public class Login extends Command {
 
-    public String id;
-    public String userName;
-
-    public Login(String id, String userName) {
+    public Login(User creator) {
         this.name = Config.Command.LOGIN.toString();
-        this.id = id;
-        this.userName = userName;
+        this.creator = creator;
     }
 }

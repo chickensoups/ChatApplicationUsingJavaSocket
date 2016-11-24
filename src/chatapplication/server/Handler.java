@@ -3,20 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.util;
+package chatapplication.server;
 
-import chatapplication.Response.LoginR;
-import chatapplication.Response.Response;
+import chatapplication.response.Response;
 import chatapplication.command.Command;
 import chatapplication.command.Login;
 import chatapplication.entity.User;
-import chatapplication.protocol.Protocol;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,25 +42,13 @@ public class Handler extends Thread {
             // Login using unique username
             while (true) {
                 Command command = (Command) in.readObject();
-
                 if (command != null) {
                     Response response;
                     if (command instanceof Login) {
-                        Login login = (Login) command;
-                        user = UserUtil.logUserIn(login);
-                        if (user != null) {
-                            user.out = out;
-                            user.in = in;
-                        }
-                        LoginR loginR = new LoginR();
-                        loginR.name = login.name + Config.responseSign;
-                        loginR.userName = login.userName;
-                        response = loginR;
-                        // Notice
-                        NotificationUtil.noticeUser(user, loginR);
-                    } else {
-                        response = protocol.processCommand(command);
+                        command.creator.out = out;
+                        command.creator.in = in;
                     }
+                    response = protocol.processCommand(command);
                 }
             }
         } catch (IOException ex) {
