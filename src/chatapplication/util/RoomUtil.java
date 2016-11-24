@@ -12,6 +12,7 @@ import chatapplication.entity.User;
 import chatapplication.server.Server;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,9 +22,14 @@ import java.util.logging.Logger;
  */
 public class RoomUtil {
 
-    public static void createRoom(CreateRoom createRoom) {
+    public static HashSet<Room> getListRoom() {
+        return Server.rooms;
+    }
+
+    public static Room createRoom(CreateRoom createRoom) {
         Room newRoom = new Room(createRoom);
         Server.rooms.add(newRoom);
+        return newRoom;
     }
 
     public static boolean isRoomFull(Room room) {

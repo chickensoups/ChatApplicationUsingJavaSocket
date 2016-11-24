@@ -6,22 +6,27 @@
 package chatapplication.entity;
 
 import chatapplication.command.CreateRoom;
+import java.io.Serializable;
 
 /**
  *
  * @author VuongKM
  */
-public class Room {
+public class Room implements Serializable {
+
     public String name;
     public User creator;
-    
+    public int userCount;
+
     public Room(String name, User creator) {
         this.name = name;
         this.creator = creator;
+        this.userCount = 0;
     }
-    
+
     public Room(CreateRoom createRoom) {
         this.name = createRoom.roomName;
         this.creator = createRoom.creator;
+        this.userCount = 0;
     }
 }

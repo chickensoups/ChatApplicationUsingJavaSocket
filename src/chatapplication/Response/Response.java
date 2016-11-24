@@ -5,12 +5,20 @@
  */
 package chatapplication.Response;
 
+import java.io.Serializable;
+
 /**
  *
  * @author VuongKM
  */
-public class Response {
+public class Response implements Serializable {
+
     public String name;
     public int status = 200;
     public String message = "OK";
+
+    @Override
+    public String toString() {
+        return status + " - " + name + " - " + message;
+    }
 }

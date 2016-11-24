@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chatapplication.Response;
+package chatapplication.command;
+
+import chatapplication.entity.User;
 
 /**
  *
  * @author VuongKM
  */
-public class SendMessageR extends Response {
+public class ListRoom extends Command {
 
-    public String content;
+    public ListRoom(User creator) {
+        this.creator = creator;
+    }
 }

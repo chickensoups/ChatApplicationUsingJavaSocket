@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/Response/CreateRoomR.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/command/SendMessage.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/client/MessageElement.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/client/DecorationUtil.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/util/Config.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/entity/User.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/util/MessageUtil.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/server/Server.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/client/Client.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/command/Login.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/Response/SendMessageR.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/util/RoomUtil.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/command/LeaveRoom.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/Response/JoinRoomR.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/Response/LeaveRoomR.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/Response/LoginR.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/command/CreateRoom.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/entity/Message.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/protocol/Protocol.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/Response/Response.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/command/JoinRoom.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/util/NotificationUtil.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/util/Handler.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/util/UserUtil.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/entity/Room.java</file>
+            <file>file:/C:/Users/VuongKM/Documents/NetBeansProjects/ChatApplication/src/chatapplication/command/Command.java</file>
+        </group>
+    </open-files>
+</project-private>

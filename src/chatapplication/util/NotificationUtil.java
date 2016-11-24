@@ -8,6 +8,7 @@ package chatapplication.util;
 import chatapplication.Response.Response;
 import chatapplication.entity.Room;
 import chatapplication.entity.User;
+import chatapplication.server.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -27,6 +28,24 @@ public class NotificationUtil {
                 tmpUser.out.writeObject(response);
             } catch (IOException ex) {
                 Logger.getLogger(RoomUtil.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public static void noticeUser(User user, Response response) {
+        try {
+            user.out.writeObject(response);
+        } catch (IOException ex) {
+            Logger.getLogger(NotificationUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void noticeAllUser(Response response) {
+        for (User tmpUser : Server.users) {
+            try {
+                tmpUser.out.writeObject(response);
+            } catch (IOException ex) {
+                Logger.getLogger(NotificationUtil.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

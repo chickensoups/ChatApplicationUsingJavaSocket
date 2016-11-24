@@ -9,6 +9,7 @@ package chatapplication.Response;
  *
  * @author VuongKM
  */
-public class LoginR extends Response{
+public class LoginR extends Response {
+
     public String userName;
 }

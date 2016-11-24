@@ -5,14 +5,17 @@
  */
 package chatapplication.entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author VuongKM
  */
-public class Message {
+public class Message implements Serializable {
+
     public String content;
     public User creator;
-    
+
     public Message(String content, User creator) {
         this.content = content;
         this.creator = creator;

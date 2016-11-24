@@ -5,11 +5,14 @@
  */
 package chatapplication.Response;
 
+import chatapplication.entity.Room;
+import java.util.HashSet;
+
 /**
  *
  * @author VuongKM
  */
-public class SendMessageR extends Response {
+public class ListRoomR extends Response {
 
-    public String content;
+    public HashSet<Room> rooms;
 }

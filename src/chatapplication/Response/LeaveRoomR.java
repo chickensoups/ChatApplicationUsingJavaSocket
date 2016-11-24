@@ -11,6 +11,7 @@ import chatapplication.entity.Room;
  *
  * @author VuongKM
  */
-public class LeaveRoomR extends Response{
+public class LeaveRoomR extends Response {
+
     public Room room;
 }

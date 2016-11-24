@@ -5,10 +5,13 @@
  */
 package chatapplication.Response;
 
+import chatapplication.entity.Room;
+
 /**
  *
  * @author VuongKM
  */
-public class CreateRoomR extends Response{
-    public String roomName;
+public class CreateRoomR extends Response {
+
+    public Room room;
 }

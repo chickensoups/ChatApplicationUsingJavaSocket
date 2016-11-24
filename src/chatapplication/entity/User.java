@@ -5,22 +5,28 @@
  */
 package chatapplication.entity;
 
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *
  * @author VuongKM
  */
-public class User {
+public class User implements Serializable {
+
+    public String id;
     public String name;
     public ObjectOutputStream out;
+    public ObjectInputStream in;
     public Room currentRoom;
-    
+
     public User() {
-        
+
     }
-    
-    public User(String name) {
+
+    public User(String id, String name) {
+        this.id = id;
         this.name = name;
     }
 }

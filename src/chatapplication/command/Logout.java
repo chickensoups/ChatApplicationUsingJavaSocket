@@ -12,13 +12,10 @@ import chatapplication.util.Config;
  *
  * @author VuongKM
  */
-public class SendMessage extends Command {
+public class Logout extends Command {
 
-    public String content;
-
-    public SendMessage(User creator, String content) {
-        this.name = Config.Command.SEND_MESSAGE.toString();
+    public Logout(User creator) {
+        this.name = Config.Command.LOGOUT.toString();
         this.creator = creator;
-        this.content = content;
     }
 }

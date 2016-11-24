@@ -17,6 +17,14 @@ public class Command implements Serializable {
     public String name;
     public User creator;
 
+    public Command() {
+    }
+
+    public Command(String name, User creator) {
+        this.name = name;
+        this.creator = creator;
+    }
+
     public boolean isAllow() {
         return true;
     }

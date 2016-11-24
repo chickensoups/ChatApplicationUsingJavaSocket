@@ -8,14 +8,18 @@ package chatapplication.protocol;
 import chatapplication.Response.CreateRoomR;
 import chatapplication.Response.JoinRoomR;
 import chatapplication.Response.LeaveRoomR;
+import chatapplication.Response.ListRoomR;
 import chatapplication.Response.LoginR;
+import chatapplication.Response.LogoutR;
 import chatapplication.Response.Response;
 import chatapplication.Response.SendMessageR;
 import chatapplication.command.Command;
 import chatapplication.command.CreateRoom;
 import chatapplication.command.JoinRoom;
 import chatapplication.command.LeaveRoom;
+import chatapplication.command.ListRoom;
 import chatapplication.command.Login;
+import chatapplication.command.Logout;
 import chatapplication.command.SendMessage;
 import chatapplication.entity.Room;
 import chatapplication.entity.User;
@@ -36,6 +40,8 @@ public class Protocol {
         Response response = null;
         if (command.name.equals(Config.Command.LOGIN.toString())) {
             response = processLogin(command);
+        } else if (command.name.equals(Config.Command.LOGOUT.toString())) {
+            response = processLogout(command);
         } else if (command.name.equals(Config.Command.CREATE_ROOM.toString())) {
             response = processCreateRoom(command);
         } else if (command.name.equals(Config.Command.JOIN_ROOM.toString())) {
@@ -54,6 +60,12 @@ public class Protocol {
         loginR.name = login.name + Config.responseSign;
         loginR.userName = login.userName;
 
+        if (login.userName.isEmpty()) {
+            loginR.status = 400;
+            loginR.message = "Username can't be empty!";
+            return loginR;
+        }
+
         if (UserUtil.isUserExisted(login.userName)) {
             loginR.status = 400;
             loginR.message = "Existed username";
@@ -61,16 +73,35 @@ public class Protocol {
         }
 
         // Log user to server
-        UserUtil.logUserIn(login);
-
+        User loggedUser = UserUtil.logUserIn(login);
+        // Notice
+        NotificationUtil.noticeUser(loggedUser, loginR);
+        
         return loginR;
+    }
+
+    private Response processLogout(Command command) {
+        Logout logout = (Logout) command;
+        LogoutR logoutR = new LogoutR();
+        logoutR.name = logout.name + Config.responseSign;
+
+        UserUtil.logUserOut(logout);
+        return logoutR;
+    }
+
+    private Response processListRoom(Command command) {
+        ListRoom listRoom = (ListRoom) command;
+        ListRoomR listRoomR = new ListRoomR();
+        listRoomR.name = listRoom.name + Config.responseSign;
+        listRoomR.rooms = RoomUtil.getListRoom();
+
+        return listRoomR;
     }
 
     private Response processCreateRoom(Command command) {
         CreateRoom createRoom = (CreateRoom) command;
         CreateRoomR createRoomR = new CreateRoomR();
         createRoomR.name = createRoom.name + Config.responseSign;
-        createRoomR.roomName = createRoom.roomName;
 
         if (createRoom.roomName.isEmpty()) {
             createRoomR.status = 400;
@@ -84,7 +115,9 @@ public class Protocol {
         }
 
         // Create room
-        RoomUtil.createRoom(createRoom);
+        createRoomR.room = RoomUtil.createRoom(createRoom);
+        // Notice all user
+        NotificationUtil.noticeAllUser(createRoomR);
 
         return createRoomR;
     }

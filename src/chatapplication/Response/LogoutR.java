@@ -9,7 +9,6 @@ package chatapplication.Response;
  *
  * @author VuongKM
  */
-public class SendMessageR extends Response {
+public class LogoutR extends Response {
 
-    public String content;
 }

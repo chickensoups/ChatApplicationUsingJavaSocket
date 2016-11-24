@@ -5,7 +5,9 @@
  */
 package chatapplication.client;
 
+import java.awt.Component;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -26,5 +28,27 @@ public class DecorationUtil {
                 TitledBorder.CENTER,
                 TitledBorder.TOP);
         panel.setBorder(border);
+    }
+
+    public static void addComponentAndRepain(JComponent parent, JComponent child) {
+        parent.add(child);
+        parent.validate();
+        parent.repaint();
+    }
+
+    public static void disableRecursive(JComponent parent) {
+        Component[] comps = parent.getComponents();
+        for (Component comp : comps) {
+            comp.setEnabled(false);
+            disableRecursive((JComponent) comp);
+        }
+    }
+
+    public static void enableRecursive(JComponent parent) {
+        Component[] comps = parent.getComponents();
+        for (Component comp : comps) {
+            comp.setEnabled(true);
+            enableRecursive((JComponent) comp);
+        }
     }
 }

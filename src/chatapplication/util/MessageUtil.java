@@ -12,11 +12,12 @@ import chatapplication.command.SendMessage;
  * @author VuongKM
  */
 public class MessageUtil {
+
     public static boolean isValid(SendMessage sendMessage) {
         // TODO: implement logic to check wheather a message is valid or not
         return true;
     }
-    
+
     public static void sendMessage(SendMessage sendMessage) {
         // Send message to all people in user room
     }

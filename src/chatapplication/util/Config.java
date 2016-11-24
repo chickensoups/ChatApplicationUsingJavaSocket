@@ -18,6 +18,8 @@ public class Config {
 
     public static enum Command {
         LOGIN("LOGIN"),
+        LOGOUT("LOGOUT"),
+        LIST_ROOM("LIST_ROOM"),
         CREATE_ROOM("CREATE_ROOM"),
         JOIN_ROOM("JOINT_ROOM"),
         LEAVE_ROOM("LEAVE_ROOM"),
