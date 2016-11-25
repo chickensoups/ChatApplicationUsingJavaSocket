@@ -32,7 +32,7 @@ import chatapplication.server.util.UserUtil;
  *
  * @author VuongKM
  */
-public class Protocol {
+public class ServerProtocol {
 
     public Response processCommand(Command command) {
         Response response = null;
@@ -40,6 +40,8 @@ public class Protocol {
             response = processLogin(command);
         } else if (command.name.equals(Config.Command.LOGOUT.toString())) {
             response = processLogout(command);
+        } else if (command.name.equals(Config.Command.LIST_ROOM.toString())) {
+            response = processListRoom(command);
         } else if (command.name.equals(Config.Command.CREATE_ROOM.toString())) {
             response = processCreateRoom(command);
         } else if (command.name.equals(Config.Command.JOIN_ROOM.toString())) {
@@ -87,7 +89,7 @@ public class Protocol {
         User loggedOutUser = UserUtil.logUserOut(logout);
         // Notice
         NotificationUtil.noticeUser(loggedOutUser, logoutR);
-        
+
         return logoutR;
     }
 
@@ -96,6 +98,11 @@ public class Protocol {
         ListRoomR listRoomR = new ListRoomR();
         listRoomR.name = listRoom.name + Config.responseSign;
         listRoomR.rooms = RoomUtil.getListRoom();
+
+        // Find user
+        User user = UserUtil.findUser(listRoom.creator);
+        // Notice to user
+        NotificationUtil.noticeUser(user, listRoomR);
 
         return listRoomR;
     }

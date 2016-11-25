@@ -6,6 +6,7 @@
 package chatapplication.command;
 
 import chatapplication.entity.User;
+import chatapplication.util.Config;
 
 /**
  *
@@ -14,6 +15,7 @@ import chatapplication.entity.User;
 public class ListRoom extends Command {
 
     public ListRoom(User creator) {
+        this.name = Config.Command.LIST_ROOM.toString();
         this.creator = creator;
     }
 }

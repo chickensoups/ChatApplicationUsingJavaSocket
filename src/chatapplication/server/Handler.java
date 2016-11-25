@@ -22,12 +22,10 @@ import java.util.logging.Logger;
  */
 public class Handler extends Thread {
 
-    private String name;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private Socket socket;
-    private Protocol protocol;
-    private User user;
+    private ServerProtocol protocol;
 
     public Handler(Socket socket) {
         this.socket = socket;
@@ -38,17 +36,16 @@ public class Handler extends Thread {
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            protocol = new Protocol();
+            protocol = new ServerProtocol();
             // Login using unique username
             while (true) {
                 Command command = (Command) in.readObject();
                 if (command != null) {
-                    Response response;
                     if (command instanceof Login) {
                         command.creator.out = out;
                         command.creator.in = in;
                     }
-                    response = protocol.processCommand(command);
+                    Response response = protocol.processCommand(command);
                 }
             }
         } catch (IOException ex) {

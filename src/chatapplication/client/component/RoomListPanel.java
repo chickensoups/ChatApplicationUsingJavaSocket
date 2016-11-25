@@ -5,19 +5,13 @@
  */
 package chatapplication.client.component;
 
-import chatapplication.execute.Client;
 import chatapplication.client.util.DecorationUtil;
-import chatapplication.command.CreateRoom;
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -32,11 +26,12 @@ public class RoomListPanel extends JPanel {
     public JTextField roomNameTextField;
     public JButton createRoomButton;
     public JPanel roomListContentPanel;
+    public JLabel noRoomMessage;
 
     public RoomListPanel() {
 
         createRoomFormPanel = new JPanel();
-        roomNameTextField = new JTextField(30);
+        roomNameTextField = new JTextField(10);
         createRoomButton = new JButton("Create Room");
         roomListContentPanel = new JPanel();
 
@@ -45,12 +40,15 @@ public class RoomListPanel extends JPanel {
         createRoomFormPanel.add(roomNameTextField);
         createRoomFormPanel.add(createRoomButton);
 
+        noRoomMessage = new JLabel("Do not have any room!");
+        noRoomMessage.setVisible(false);
         roomListContentPanel.setLayout(new GridLayout(10, 1));
 
         setLayout(new BorderLayout());
         add(createRoomFormPanel, BorderLayout.PAGE_START);
+        add(noRoomMessage, BorderLayout.PAGE_END);
         add(new JScrollPane(roomListContentPanel), BorderLayout.CENTER);
-        
+
         DecorationUtil.setComponentNiceBorder(this, "Room list");
     }
 }

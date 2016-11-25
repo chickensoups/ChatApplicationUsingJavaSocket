@@ -9,6 +9,7 @@ import chatapplication.execute.Client;
 import chatapplication.client.component.MessageElement;
 import chatapplication.client.component.RoomElement;
 import chatapplication.client.util.DecorationUtil;
+import chatapplication.command.ListRoom;
 import chatapplication.entity.Room;
 import chatapplication.entity.User;
 import chatapplication.response.CreateRoomR;
@@ -19,6 +20,9 @@ import chatapplication.response.LoginR;
 import chatapplication.response.LogoutR;
 import chatapplication.response.Response;
 import chatapplication.response.SendMessageR;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,11 +62,18 @@ public class ClientProtocol {
 
             client.loginPanel.loggedIn();
             DecorationUtil.enableRecursive(client.roomListPanel);
+            MessageElement messageElement = new MessageElement(client.serverUser, response.toString());
+            client.serverMessagePanel.contentPanel.add(messageElement);
+            client.serverMessagePanel.validate();
+            client.serverMessagePanel.repaint();
+            try {
+                // Get list room first time
+                ListRoom listRoom = new ListRoom(client.currentUser);
+                client.out.writeObject(listRoom);
+            } catch (IOException ex) {
+                Logger.getLogger(ClientProtocol.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        MessageElement messageElement = new MessageElement(client.serverUser, response.toString());
-        client.serverMessagePanel.contentPanel.add(messageElement);
-        client.serverMessagePanel.validate();
-        client.serverMessagePanel.repaint();
     }
 
     public void processLogoutResponse(Response response) {
@@ -78,11 +89,16 @@ public class ClientProtocol {
     public void processListRoomResponse(Response response) {
         ListRoomR listRoomR = (ListRoomR) response;
 
-        client.roomListPanel.removeAll();
-        for (Room room : listRoomR.rooms) {
-            if (!client.rooms.contains(room)) {
-                RoomElement roomElement = new RoomElement(room);
-                DecorationUtil.addComponentAndRepaint(client.roomListPanel.roomListContentPanel, roomElement);
+        client.roomListPanel.roomListContentPanel.removeAll();
+        if (listRoomR.rooms.size() <= 0) {
+            client.roomListPanel.noRoomMessage.setVisible(true);
+        } else {
+            client.roomListPanel.noRoomMessage.setVisible(false);
+            for (Room room : listRoomR.rooms) {
+                if (!client.rooms.contains(room)) {
+                    RoomElement roomElement = new RoomElement(room);
+                    DecorationUtil.addComponentAndRepaint(client.roomListPanel.roomListContentPanel, roomElement);
+                }
             }
         }
     }
@@ -92,6 +108,7 @@ public class ClientProtocol {
         // Add room to list room
         client.rooms.add(createRoomR.room);
         // Add room element
+        client.roomListPanel.noRoomMessage.setVisible(false);
         RoomElement roomElement = new RoomElement(createRoomR.room);
         DecorationUtil.addComponentAndRepaint(client.roomListPanel.roomListContentPanel, roomElement);
     }

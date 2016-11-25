@@ -9,6 +9,7 @@ import chatapplication.client.util.DecorationUtil;
 import chatapplication.entity.User;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -22,9 +23,9 @@ public class ServerMessagePanel extends JPanel {
 
     public ServerMessagePanel() {
         contentPanel = new JPanel();
-        contentPanel.setLayout(new GridLayout(10, 1));
+        contentPanel.setLayout(new GridLayout(30, 1));
         add(new JScrollPane(contentPanel), "Center");
-        MessageElement element = new MessageElement(new User("abc", "abc"), "Server message will be show bellow!");
+        JLabel element = new JLabel("Server message will be show bellow!");
         contentPanel.add(element);
         DecorationUtil.setComponentNiceBorder(this, "Server Message");
     }

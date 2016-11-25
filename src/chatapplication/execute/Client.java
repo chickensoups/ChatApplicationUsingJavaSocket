@@ -14,6 +14,7 @@ import chatapplication.client.component.RoomListPanel;
 import chatapplication.client.component.ServerMessagePanel;
 import chatapplication.response.Response;
 import chatapplication.command.CreateRoom;
+import chatapplication.command.ListRoom;
 import chatapplication.command.Login;
 import chatapplication.command.Logout;
 import chatapplication.command.SendMessage;
@@ -59,7 +60,7 @@ public class Client {
 
     public Client() {
         // Init main frame
-        frame = new JFrame("Awesome chat application");
+        frame = new JFrame("Chat application - java native socket");
         frame.setLayout(new BorderLayout());
 
         // Init user on client
@@ -143,6 +144,7 @@ public class Client {
             in = new ObjectInputStream(socket.getInputStream());
             // Process all messages from server, according to the protocol.
             clientProtocol = new ClientProtocol(this);
+
             while (true) {
                 Response response = (Response) in.readObject();
                 if (response != null) {
