@@ -20,20 +20,17 @@ public class RoomElement extends JPanel {
     public JButton creator;
     public JLabel roomName;
     public JLabel userCount;
+    public JButton join;
 
     public RoomElement(Room room) {
-        if (room == null) {
-            this.creator = new JButton("Application");
-            this.roomName = new JLabel("Default Room");
-            this.userCount = new JLabel(0 + "");
-        } else {
-            this.creator = new JButton(room.creator.name);
-            this.roomName = new JLabel(room.name);
-            this.userCount = new JLabel(userCount + "");
-        }
+        this.creator = new JButton(room.creator.name);
+        this.roomName = new JLabel(room.name);
+        this.userCount = new JLabel(room.userCount + "");
+        this.join = new JButton("Joint");
 
         add(this.roomName);
         add(this.creator);
         add(this.userCount);
+        add(this.join);
     }
 }

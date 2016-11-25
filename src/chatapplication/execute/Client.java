@@ -8,6 +8,7 @@ package chatapplication.execute;
 import chatapplication.client.ClientProtocol;
 import chatapplication.client.component.InRoomPanel;
 import chatapplication.client.component.LoginPanel;
+import chatapplication.client.component.LogoutPanel;
 import chatapplication.client.util.RandomIDUtil;
 import chatapplication.client.util.DecorationUtil;
 import chatapplication.client.component.RoomListPanel;
@@ -43,16 +44,18 @@ public class Client {
     public ObjectInputStream in;
     public ClientProtocol clientProtocol;
     public User currentUser;
-    public HashSet<Room> rooms = new HashSet<Room>();
+    public HashSet<Room> rooms;
     public JFrame frame;
 
     // Server message panel
     public ServerMessagePanel serverMessagePanel;
-    // Login panel component
+    // Login panel
     public LoginPanel loginPanel;
-    // List room component
+    // Logout panel
+    public LogoutPanel logoutPanel;
+    // List room
     public RoomListPanel roomListPanel;
-    // In room component
+    // In room
     public InRoomPanel inRoomPanel;// Panel for in room chat
     // Init default server user
     public User serverUser;
@@ -60,8 +63,11 @@ public class Client {
 
     public Client() {
         // Init main frame
-        frame = new JFrame("Chat application - java native socket");
+        frame = new JFrame("Chat application using Java's native socket");
         frame.setLayout(new BorderLayout());
+
+        // Init rooms
+        rooms = new HashSet<>();
 
         // Init user on client
         uniqueId = RandomIDUtil.nextSessionId();
@@ -74,62 +80,17 @@ public class Client {
         serverMessagePanel = new ServerMessagePanel();
         frame.add(serverMessagePanel, BorderLayout.WEST);
 
-        // Login, logout panel
-        loginPanel = new LoginPanel();
-        loginPanel.loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    currentUser = new User(uniqueId, loginPanel.usernameTextField.getText());
-                    Login login = new Login(currentUser);
-                    out.writeObject(login);
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-
-        loginPanel.logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Logout logout = new Logout(currentUser);
-                    out.writeObject(logout);
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        // Login panel
+        loginPanel = new LoginPanel(this);
         frame.add(loginPanel, BorderLayout.NORTH);
 
         // Room list panel
-        roomListPanel = new RoomListPanel();
-        roomListPanel.createRoomButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    CreateRoom createRoom = new CreateRoom(currentUser, roomListPanel.roomNameTextField.getText());
-                    out.writeObject(createRoom);
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        roomListPanel = new RoomListPanel(this);
         frame.add(roomListPanel, BorderLayout.EAST);
         DecorationUtil.disableRecursive(roomListPanel);
 
         // In room panel
-        inRoomPanel = new InRoomPanel();
-        inRoomPanel.messageTextField.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    SendMessage sendMessage = new SendMessage(currentUser, inRoomPanel.messageTextField.getText());
-                    out.writeObject(sendMessage);
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        inRoomPanel = new InRoomPanel(this);
         frame.add(inRoomPanel, BorderLayout.CENTER);
         DecorationUtil.disableRecursive(inRoomPanel);
 

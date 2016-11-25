@@ -25,7 +25,7 @@ public class ServerMessagePanel extends JPanel {
         contentPanel = new JPanel();
         contentPanel.setLayout(new GridLayout(30, 1));
         add(new JScrollPane(contentPanel), "Center");
-        JLabel element = new JLabel("Server message will be show bellow!");
+        JLabel element = new JLabel("All message from Server will be show bellow!");
         contentPanel.add(element);
         DecorationUtil.setComponentNiceBorder(this, "Server Message");
     }

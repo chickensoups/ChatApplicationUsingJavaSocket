@@ -22,6 +22,7 @@ import chatapplication.command.Login;
 import chatapplication.command.Logout;
 import chatapplication.command.SendMessage;
 import chatapplication.entity.User;
+import chatapplication.execute.Server;
 import chatapplication.util.Config;
 import chatapplication.server.util.MessageUtil;
 import chatapplication.server.util.NotificationUtil;
@@ -115,16 +116,16 @@ public class ServerProtocol {
         if (createRoom.roomName.isEmpty()) {
             createRoomR.status = 400;
             createRoomR.message = "Room name can't be empty!";
-            return createRoomR;
         }
         if (RoomUtil.isRoomExisted(createRoom.roomName)) {
             createRoomR.status = 400;
             createRoomR.message = "Existed room name";
-            return createRoomR;
         }
 
-        // Create room
-        createRoomR.room = RoomUtil.createRoom(createRoom);
+        if (createRoomR.status == 200) {
+            // Create room
+            createRoomR.room = RoomUtil.createRoom(createRoom);
+        }
         // Notice all user
         NotificationUtil.noticeAllUser(createRoomR);
 
@@ -135,18 +136,20 @@ public class ServerProtocol {
         JoinRoom joinRoom = (JoinRoom) command;
         JoinRoomR joinRoomR = new JoinRoomR();
         joinRoomR.name = joinRoom.name + Config.responseSign;
-        joinRoomR.room = joinRoom.room;
+        joinRoomR.user = joinRoom.creator;
 
         // Check if room is full
         if (RoomUtil.isRoomFull(joinRoom.room)) {
             joinRoomR.status = 400;
             joinRoomR.message = "Room is full";
-            return joinRoomR;
+        } else {
+            // Add user to room
+            joinRoomR.room = UserUtil.joinRoom(joinRoom);
         }
-
-        // Add user to room
-        UserUtil.joinRoom(joinRoom);
-
+        
+        // Update room of user
+        UserUtil.assignRoomToUser(joinRoom);
+        
         // Notice other user in room
         NotificationUtil.noticeUserInRoom(joinRoom.room, joinRoomR);
 
@@ -157,11 +160,14 @@ public class ServerProtocol {
         LeaveRoom leaveRoom = (LeaveRoom) command;
         LeaveRoomR leaveRoomR = new LeaveRoomR();
         leaveRoomR.name = leaveRoom.name + Config.responseSign;
-        leaveRoomR.room = leaveRoom.room;
+        leaveRoomR.user = leaveRoom.creator;
 
         // Leave room
-        UserUtil.leaveRoom(leaveRoom);
+        leaveRoomR.room = UserUtil.leaveRoom(leaveRoom);
 
+        // Remove room of user
+         UserUtil.removeRoomOfUser(leaveRoom);
+        
         // Notice other user in room
         NotificationUtil.noticeUserInRoom(leaveRoomR.room, leaveRoomR);
 

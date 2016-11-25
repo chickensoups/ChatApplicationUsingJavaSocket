@@ -6,6 +6,7 @@
 package chatapplication.response;
 
 import chatapplication.entity.Room;
+import chatapplication.entity.User;
 
 /**
  *
@@ -14,4 +15,5 @@ import chatapplication.entity.Room;
 public class JoinRoomR extends Response {
 
     public Room room;
+    public User user;
 }

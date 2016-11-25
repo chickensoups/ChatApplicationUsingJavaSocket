@@ -21,18 +21,20 @@ import java.util.ArrayList;
  */
 public class UserUtil {
 
-    public static void joinRoom(JoinRoom joinRoom) {
+    public static Room joinRoom(JoinRoom joinRoom) {
         User user = findUser(joinRoom.creator);
         Room room = RoomUtil.findRoom(joinRoom.room);
         user.currentRoom = room;
-        room.userCount++;
+        ++room.userCount;
+        return room;
     }
 
-    public static void leaveRoom(LeaveRoom leaveRoom) {
+    public static Room leaveRoom(LeaveRoom leaveRoom) {
         User user = findUser(leaveRoom.creator);
         Room room = RoomUtil.findRoom(user.currentRoom);
         room.userCount--;
         user.currentRoom = null;
+        return room;
     }
 
     public static User logUserIn(Login login) {
@@ -44,7 +46,7 @@ public class UserUtil {
                 break;
             }
         }
-        
+
         User user = new User(login.creator);
         Server.users.add(user);
         return user;
@@ -54,6 +56,22 @@ public class UserUtil {
         User user = findUser(logout.creator);
         Server.users.remove(user);
         return user;
+    }
+
+    public static void assignRoomToUser(JoinRoom joinRoom) {
+        for (User tmpUser : Server.users) {
+            if (tmpUser.id.equals(joinRoom.creator.id)) {
+                tmpUser.currentRoom = RoomUtil.findRoom(joinRoom.room);
+            }
+        }
+    }
+
+    public static void removeRoomOfUser(LeaveRoom leaveRoom) {
+        for (User tmpUser : Server.users) {
+            if (tmpUser.id.equals(leaveRoom.creator.id)) {
+                tmpUser.currentRoom = RoomUtil.findRoom(leaveRoom.room);
+            }
+        }
     }
 
     public static User findUser(User user) {

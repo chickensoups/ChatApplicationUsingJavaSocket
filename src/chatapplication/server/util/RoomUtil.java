@@ -37,7 +37,7 @@ public class RoomUtil {
     public static boolean isRoomFull(Room room) {
         int roomUserCount = 0;
         for (User user : Server.users) {
-            if (user.currentRoom.name.equals(room.name)) {
+            if (user.currentRoom != null && user.currentRoom.name.equals(room.name)) {
                 roomUserCount++;
             }
         }
@@ -70,7 +70,7 @@ public class RoomUtil {
         ArrayList<User> roomUsers;
         roomUsers = new ArrayList<>();
         for (User user : Server.users) {
-            if (user.currentRoom.name.equals(room.name)) {
+            if (user.currentRoom != null && user.currentRoom.name.equals(room.name)) {
                 roomUsers.add(user);
             }
         }
