@@ -11,6 +11,7 @@ import chatapplication.command.SendMessage;
 import chatapplication.execute.Client;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -104,6 +105,7 @@ public class InRoomPanel extends JPanel {
 
         setLayout(new BorderLayout());
         chatArea = new JPanel();
+        chatArea.setLayout(new GridLayout(100, 1));
         add(new JScrollPane(chatArea), BorderLayout.CENTER);
         add(messagePanel, BorderLayout.PAGE_END);
 

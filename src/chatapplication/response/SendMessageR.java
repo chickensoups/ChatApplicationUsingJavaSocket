@@ -5,11 +5,14 @@
  */
 package chatapplication.response;
 
+import chatapplication.entity.User;
+
 /**
  *
  * @author VuongKM
  */
 public class SendMessageR extends Response {
 
+    public User user;
     public String content;
 }

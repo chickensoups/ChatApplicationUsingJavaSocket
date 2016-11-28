@@ -163,6 +163,15 @@ public class ClientProtocol {
         client.currentUser.currentRoom = joinRoomR.room;
         // Enable in room panel
         DecorationUtil.enableRecursive(client.inRoomPanel);
+        // Refresh list room
+        for (Component roomComponent : client.roomListPanel.roomListContentPanel.getComponents()) {
+            if (roomComponent instanceof RoomElement) {
+                RoomElement roomElement = (RoomElement) roomComponent;
+                if (roomElement.roomName.getText().equals(joinRoomR.room.name)) {
+                    roomElement.userCount.setText(joinRoomR.room.userCount + "");
+                }
+            }
+        }
         // Add welcome message to chat panel
         MessageElement messageElement;
         if (joinRoomR.user.id.equals(client.currentUser.id)) {
@@ -173,15 +182,7 @@ public class ClientProtocol {
             messageElement = new MessageElement(client.serverUser, joinRoomR.user.name + " had joined");
         }
         DecorationUtil.addComponentAndRepaint(client.inRoomPanel.chatArea, messageElement);
-        // Refresh list room
-        for (Component roomComponent : client.roomListPanel.roomListContentPanel.getComponents()) {
-            if (roomComponent instanceof RoomElement) {
-                RoomElement roomElement = (RoomElement) roomComponent;
-                if (roomElement.roomName.getText().equals(joinRoomR.room.name)) {
-                    roomElement.userCount.setText(joinRoomR.room.userCount + "");
-                }
-            }
-        }
+
     }
 
     public void processLeaveRoomResponse(Response response) {
@@ -207,6 +208,14 @@ public class ClientProtocol {
     }
 
     public void processSendMessageResponse(Response response) {
-
+        SendMessageR sendMessageR = (SendMessageR) response;
+        // Add welcome message to chat panel
+        MessageElement messageElement;
+        if (sendMessageR.user.id.equals(client.currentUser.id)) {
+            messageElement = new MessageElement(new User(client.uniqueId, "You"), sendMessageR.content);
+        } else {
+            messageElement = new MessageElement(sendMessageR.user, sendMessageR.content);
+        }
+        DecorationUtil.addComponentAndRepaint(client.inRoomPanel.chatArea, messageElement);
     }
 }

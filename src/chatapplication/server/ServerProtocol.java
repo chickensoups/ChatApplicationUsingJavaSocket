@@ -21,6 +21,7 @@ import chatapplication.command.ListRoom;
 import chatapplication.command.Login;
 import chatapplication.command.Logout;
 import chatapplication.command.SendMessage;
+import chatapplication.entity.Room;
 import chatapplication.entity.User;
 import chatapplication.execute.Server;
 import chatapplication.util.Config;
@@ -125,9 +126,12 @@ public class ServerProtocol {
         if (createRoomR.status == 200) {
             // Create room
             createRoomR.room = RoomUtil.createRoom(createRoom);
+            // Notice all user
+            NotificationUtil.noticeAllUser(createRoomR);
+        } else {
+            // Notice creator about the failed request
+            NotificationUtil.noticeUser(createRoom.creator, createRoomR);
         }
-        // Notice all user
-        NotificationUtil.noticeAllUser(createRoomR);
 
         return createRoomR;
     }
@@ -146,12 +150,17 @@ public class ServerProtocol {
             // Add user to room
             joinRoomR.room = UserUtil.joinRoom(joinRoom);
         }
-        
-        // Update room of user
-        UserUtil.assignRoomToUser(joinRoom);
-        
-        // Notice other user in room
-        NotificationUtil.noticeUserInRoom(joinRoom.room, joinRoomR);
+
+        if (joinRoomR.status == 200) {
+            // Update room of user
+            UserUtil.assignRoomToUser(joinRoom);
+
+            // Notice other user in room
+            NotificationUtil.noticeUserInRoom(joinRoom.room, joinRoomR);
+        } else {
+            // Notice creator of failed request
+            NotificationUtil.noticeUser(joinRoomR.user, joinRoomR);
+        }
 
         return joinRoomR;
     }
@@ -166,8 +175,8 @@ public class ServerProtocol {
         leaveRoomR.room = UserUtil.leaveRoom(leaveRoom);
 
         // Remove room of user
-         UserUtil.removeRoomOfUser(leaveRoom);
-        
+        UserUtil.removeRoomOfUser(leaveRoom);
+
         // Notice other user in room
         NotificationUtil.noticeUserInRoom(leaveRoomR.room, leaveRoomR);
 
@@ -179,26 +188,29 @@ public class ServerProtocol {
         SendMessageR sendMessageR = new SendMessageR();
         sendMessageR.name = sendMessage.name + Config.responseSign;
         sendMessageR.content = sendMessage.content;
+        sendMessageR.user = sendMessage.creator;
 
         // Check if message is empty
         if (sendMessage.content.isEmpty()) {
             sendMessageR.status = 400;
             sendMessageR.message = "Message can't be empty!";
-            return sendMessageR;
         }
 
         // Check if message is valid or not
         if (!MessageUtil.isValid(sendMessage)) {
             sendMessageR.status = 400;
             sendMessageR.message = "Message is not valid!";
-            return sendMessageR;
         }
 
-        // Send message
-        MessageUtil.sendMessage(sendMessage);
-
-        // Notice other user in room
-        NotificationUtil.noticeUserInRoom(sendMessage.creator.currentRoom, sendMessageR);
+        if (sendMessageR.status == 200) {
+            // Find the room
+            Room room = RoomUtil.findRoom(sendMessage.creator);
+            // Notice other user in room
+            NotificationUtil.noticeUserInRoom(room, sendMessageR);
+        } else {
+            // Notice creator about the failed request
+            NotificationUtil.noticeUser(sendMessageR.user, sendMessageR);
+        }
 
         return sendMessageR;
     }

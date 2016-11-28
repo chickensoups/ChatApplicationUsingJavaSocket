@@ -14,7 +14,7 @@ public class Config {
     public static int port = 3000;
     public static String address = "127.0.0.1";
     public static String responseSign = "__R";
-    public static int maxUserPerRoom = 2;
+    public static int maxUserPerRoom = 5;
 
     public static enum Command {
         LOGIN("LOGIN"),

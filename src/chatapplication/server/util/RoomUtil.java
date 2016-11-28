@@ -62,6 +62,11 @@ public class RoomUtil {
         return null;
     }
 
+    public static Room findRoom(User user) {
+        User findUser = UserUtil.findUser(user);
+        return findUser.currentRoom;
+    }
+
     public static boolean isRoomExisted(String roomName) {
         return findRoom(roomName) != null;
     }
